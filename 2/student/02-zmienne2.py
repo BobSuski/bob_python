@@ -7,6 +7,7 @@ print(zdanie + zdanie2)
 print(zdanie, zdanie2)
 
 
+
 moj_plik = "01-zmienne.py"
 
 print(moj_plik)
@@ -25,3 +26,5 @@ x = ['a', 'b', 'c', 'd']
 y = x[:]
 y.append('f')
 print(x, y)
+
+print(zdanie, zdanie2,sep='')
