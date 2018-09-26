@@ -1,15 +1,8 @@
+def sep(num):
+    print('\n\n[TEST ', str(num),"]###################")
+
+
 def powers_2(initial):
-    p = initial
-
-    def do_pow():
-        nonlocal p
-        p = p + p
-        print(p)
-
-    return do_pow
-
-
-def powers_2_lambda(initial):
     p = initial
 
     def do_pow():
@@ -42,13 +35,13 @@ def f_lambda(n):
     return lambda a: a + n
 
 
-print("###################")
+sep(1)
 
 f1 = powers_2(1)
 f1()
 f1()
 
-print("###################")
+sep(2)
 
 f2 = fibonacci()
 f2()
@@ -56,7 +49,12 @@ f2()
 f2()
 f2()
 
-print("###################")
+sep(3)
 
 f3 = f_lambda(10)
 print(f3(5))
+
+sep(4)
+
+f2 = fibonacci()
+[f2() for _ in range(10)]
