@@ -45,6 +45,23 @@ if False:
             print(i)
         seq+=1
 
+
+if False:
+    lista_a = [10,20,30,20,10,50,60,40,111,80,50,40]
+    #lista_a = [10,20,30,20,10,50,60,40,80,50,40]
+
+
+
+    for i in range(len(lista_a)):
+        print(i,end='#')
+        print(lista_a,end='#')
+        print(lista_a[i],end='#')
+        print(lista_a[:i-1],end='#')
+        print(lista_a[i+1:])
+       # if lista_a[i] not in lista_a[:i-1] and i not in lista_a[i+1:]:
+       #     print(lista_a[i])
+
+
 # 5. program usuwajacy zduplikowane wartosci w liscie (w miejscu! - tzn bez drugiej listy)
 #SOLVED
 if False:
