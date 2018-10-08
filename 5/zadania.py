@@ -9,6 +9,10 @@ if False:
 
     pyramid(start=5,end=7)
 
+if False:
+    def pyramid(start,end):
+        [print(' '*(end-i)+'#'*(i-1)+'#'+'#'*(i-1)) for i in range(start,end+1)]
+    pyramid(start=5,end=7)
 
 #SOLVED
 if False:
@@ -25,14 +29,24 @@ if False:
     [primeChecker(x) for x in range(100000)]
 
 if False:
+
+    import inspect;
+
     def dodaj_imie(imie, imiona=[]):
         imiona.append(imie)
         return imiona
 
-    print(dodaj_imie('Ala')) #[“Ala”]
+    def foo(a, *, b:int, **kwargs):
+         pass
 
-    print(dodaj_imie('Ola')) # [“Ala”, “Ola”]
-    print(dodaj_imie('Ewa')) # [“Ala”, “Ola”, “Ewa”]
+
+    #print(dodaj_imie('Ala')) #[“Ala”]
+    #print(dodaj_imie('Ola')) # [“Ala”, “Ola”]
+    #print(dodaj_imie('Ewa')) # [“Ala”, “Ola”, “Ewa”]
+    sig = inspect.signature(foo)
+    str(sig)
+    #print(inspect.getsource(dodaj_imie("a")))
+
 
 if False:
     imiona=[]
@@ -86,7 +100,7 @@ if False:
     dodaj_imie(2) # [“Ala”, “Ola”]
     dodaj_imie(3) # [“Ala”, “Ola”, “Ewa”]
 
-if True:
+if False:
     def fun(*el):
         for i in el:
             print(i)
