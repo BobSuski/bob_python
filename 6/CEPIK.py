@@ -5,6 +5,14 @@ entry = {
     "veh_id":""
 }
 
+def get_key():
+    while True:
+        key = input("Key to search:\n")
+        if key in entry.keys():
+            return key
+        else:
+            print("Key does not exist")
+
 def list_database():
     with open("src/db.dat","+r", encoding="utf-8") as file:
         for f in file.readlines():
@@ -12,7 +20,7 @@ def list_database():
 
 def get_database_entry(mode):
     found=False
-    key = input("Key to search:\n")
+    key = get_key()
     value = input("Value to search:\n")
     with open("src/db.dat","+r", encoding="utf-8") as file:
         for f in file.readlines():
@@ -36,7 +44,7 @@ def add_database_entry():
     print("Entry {} has been added".format(entry))
 
 def remove_database_entry_by_name(mode):
-    key = input("Key to search:\n")
+    key = get_key()
     value = input("Value to search:\n")
     newdb= open("src/newdb.dat","+w", encoding="utf-8");
     with open("src/db.dat","+r", encoding="utf-8") as file:
@@ -57,7 +65,7 @@ def remove_database_entry_by_name(mode):
     os.rename("src/newdb.dat","src/db.dat")
 
 def count_entries(mode):
-    key = input("Key to search:\n")
+    key = get_key()
     value = input("Value to search:\n")
     count=0
     with open("src/db.dat","+r", encoding="utf-8") as file:
@@ -69,7 +77,7 @@ def count_entries(mode):
             else:
                 if dbname == value:
                     count=count+1
-    print("Number of entries: ({}={}) is {}".format(key, value, count))
+    print("Number of entries({}): ({}={}) is {}".format("insensitive search" if mode == "i" else "sensitive search", key, value, count))
 
 
 def clear_database():
