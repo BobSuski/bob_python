@@ -6,7 +6,10 @@
 {'name': 'Ewelina', 'veh_id': '11111111'}
 {'name': 'Adam', 'veh_id': '19191919'}
 {'name': 'Bob', 'veh_id': '69'}
+{'name': 'Jan', 'veh_id': '11'}
+{'name': 'Jan', 'veh_id': '888', 'Surname': ''}
+{'name': 'Jan', 'veh_id': '888', 'Surname': 'NOwak'}
 {'name': 'Jack', 'veh_id': '101010', 'Surname': 'Jack', 'age': '77'}
 {'name': 'q', 'veh_id': '1', 'Surname': 'w', 'age': '2', 'city': 'e', 'country': 'r', 'Middle': 't', 'Height': '11', 'Weight': '13'}
+{'name': 'Jan', 'veh_id': '191919'}
 {'name': 'Bob', 'veh_id': '999'}
-{'name': '', 'veh_id': ''}
