@@ -20,10 +20,16 @@ if False:
     for file in files:
         print(os.path.join(os.getcwd(),file))
 
-if True:
+if False:
     try:
         zm=1/0
     except ZeroDivisionError as e:
         print(e.__str__())
     finally:
         print("End")
+
+
+z=None
+
+if z is None:
+    print("None")

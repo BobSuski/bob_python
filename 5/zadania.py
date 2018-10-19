@@ -106,3 +106,10 @@ if False:
             print(i)
 
     fun(1,2,3,4)
+
+if True:
+    l=["a"]
+    k=l[:]
+    k.append("b")
+    del k
+    print(l)
