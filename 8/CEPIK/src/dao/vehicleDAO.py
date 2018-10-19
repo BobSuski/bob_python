@@ -51,6 +51,23 @@ class VehicleDAO(object):
 
         replace_files(database_path+"_new.dat",database_path)
 
+
+    def count(self,database_path, mode, field, value):
+        entries=[]
+        entries = self.get_all_data(database_path)
+        if field == 'name':
+            self.count_by_name(mode, entries, value)
+
+        if field == 'surname':
+            self.count_by_surname(mode, entries, value)
+
+    def add(self, database_path, row):
+        vehicle = Vehicle(row['vin'],row['model'])
+        database = ConnectionManager().open_database_a(database_path)
+        print(f'adding {vehicle}')
+        pickle.dump(vehicle,database)
+        ConnectionManager().close_database(database)
+
     def get_vehicle_by_model(self, mode, entries,model):
         for i in entries:
             if (i.model == model and mode != 'i')  or (i.model.upper() == model.upper() and mode == 'i'):
@@ -61,14 +78,10 @@ class VehicleDAO(object):
             if (i.vin == vin and mode != 'i')  or (i.vin.upper() == vin.upper() and mode == 'i'):
                 print(i)
 
-    def add(self, database_path, row):
-        vehicle = Vehicle(row['vin'],row['model'])
-        database = ConnectionManager().open_database_a(database_path)
-        print(f'adding {vehicle}')
-        pickle.dump(vehicle,database)
-        ConnectionManager().close_database(database)
+
 
     def delete_by_model(self, database_path, mode, entries, model):
+        print("Entries survived in database:")
         for i in entries:
             if not ((i.model == model and mode != 'i')  or (i.model.upper() == model.upper() and mode == 'i')):
                 self.add(database_path+"_new.dat",{'vin':i.vin, 'model':i.model})
@@ -77,7 +90,21 @@ class VehicleDAO(object):
 
 
     def delete_by_vin(self, database_path, mode, entries, vin):
+        print("Entries survived in database:")
         for i in entries:
             if not ((i.vin == vin and mode != 'i')  or (i.vin.upper() == vin.upper() and mode == 'i')):
                 self.add(database_path+"_new.dat",{'vin':i.vin, 'model':i.model})
 
+    def count_by_vin(mode, entries, vin):
+        seq=0
+        for i in entries:
+            if (i.vin == vin and mode != 'i')  or (i.vin.upper() == vin.upper() and mode == 'i'):
+                seq+=1
+        print(f'count({vin}) = {seq}')
+
+    def count_by_model(mode, entries, model):
+        seq=0
+        for i in entries:
+            if (i.model == model and mode != 'i')  or (i.model.upper() == model.upper() and mode == 'i'):
+                seq+=1
+        print(f'count({model}) = {seq}')

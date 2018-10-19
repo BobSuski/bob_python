@@ -14,10 +14,11 @@ while True:
     print("-"*30)
     input_operation=input("Choose option:\n"
                     "l [=database name] - list available databases, or show all from specific database if name provided\n"
-                    "a  - add entry\n"
-                    "c  - clear database or create if not exists\n"
-                    "s(i)=field=value - search, case insensitive when i provided\n"
-                    "r(i)  - remove entry by name, case insensitive when i provided\n"
+                    "a=database  - add entry\n"
+                    "c=database  - clear database or create if not exists\n"
+                    "s(i)=dabatase - search, case insensitive when i provided\n"
+                    "r(i)=database  - remove entry by name, case insensitive when i provided\n"
+                    "fcount=database  - count function\n"
                     "af  - add field\n"
                     "df  - delete field\n"
                     "q  - exit\n ")
@@ -91,6 +92,19 @@ while True:
             value = input('Delete by value: ')
 
             DaoFacade().get_instance(database).delete(properties.databases[database],mode, field,value)
+
+    elif operation == "fcount":
+        if database is None:
+            print("Provide database name")
+        else:
+            if operation == "ri":
+                mode = 'i'
+            else:
+                mode = 's'
+            field = input('Delete by field: ')
+            value = input('Delete by value: ')
+
+            DaoFacade().get_instance(database).count(properties.databases[database],mode, field,value)
 
 
     # elif operation == "s":
