@@ -37,8 +37,6 @@ class PersonDAO(object):
         if field == 'surname':
             self.get_person_by_surname(mode, entries, value)
 
-
-
     def get_person_by_name(self,mode, entries,name):
         for i in entries:
             if (i.name == name and mode != 'i')  or (i.name.upper() == name.upper() and mode == 'i'):

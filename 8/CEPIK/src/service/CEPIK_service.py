@@ -79,6 +79,19 @@ while True:
             DaoFacade().get_instance(database).search(properties.databases[database],mode, field,value)
             pass
 
+    elif operation == "r" or operation == "ri":
+        if database is None:
+            print("Provide database name")
+        else:
+            if operation == "ri":
+                mode = 'i'
+            else:
+                mode = 's'
+            field = input('Delete by field: ')
+            value = input('Delete by value: ')
+
+            DaoFacade().get_instance(database).delete(properties.databases[database],mode, field,value)
+
 
     # elif operation == "s":
     #     commons.get_database_entry("s")
