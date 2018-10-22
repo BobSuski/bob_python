@@ -57,7 +57,7 @@ while True:
         if database is None:
             print("Provide database name")
         else:
-            for i in properties.database_structure['person']:
+            for i in properties.database_structure[database]:
                 row[i] = input(f'{i}: ')
             DaoFactory().get_instance(database).add(row)
 
