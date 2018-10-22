@@ -17,9 +17,10 @@ while True:
                     "c=database  - clear database or create if not exists\n"
                     "s(i)=dabatase - search, case insensitive when i provided\n"
                     "r(i)=database  - remove entry by name, case insensitive when i provided\n"
+                    "u(i)=database  - update entry by name/value, case insensitive when i provided\n"                        
                     "fc(i)=database  - count function\n"
-                    "af  - add field\n"
-                    "df  - delete field\n"
+                    "af(TODO)  - add field\n"
+                    "df(TODO)  - delete field\n"
                     "q  - exit\n ")
 
     operation = None
@@ -94,6 +95,23 @@ while True:
 
             DaoFactory().get_instance(database).delete(mode, field,value)
 
+    elif operation == "u" or operation == "ui":
+        if database is None:
+            print("Provide database name")
+        else:
+            if operation == "ui":
+                mode = 'i'
+            else:
+                mode = 's'
+            print("Search field")
+            search_field=commons.get_valid_field(properties.database_structure[database])
+            search_value = input(f'Search value: {search_field}=')
+            print("Change field")
+            change_field=commons.get_valid_field(properties.database_structure[database])
+            change_value = input(f'Update to value: {change_field}=')
+            DaoFactory().get_instance(database).update(mode, search_field.strip(),search_value.strip(), change_field.strip(), change_value.strip())
+            pass
+
     elif operation == "fci" or operation == "fc":
         if database is None:
             print("Provide database name")
@@ -105,7 +123,7 @@ while True:
             field=commons.get_valid_field(properties.database_structure[database])
             value = input('Count by value: ')
 
-            DaoFactory().get_instance(database).count(properties.databases[database],mode, field,value)
+            DaoFactory().get_instance(database).count(mode, field,value)
 
 
     # elif operation == "s":

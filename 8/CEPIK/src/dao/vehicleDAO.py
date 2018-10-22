@@ -5,9 +5,9 @@ from  properties import properties
 from helper.connection_manager import ConnectionManager
 from entity.vehicle import Vehicle
 from helper.commons import rename_file
+from dao.daoInterface import DAOInterface
 
-
-class VehicleDAO(object):
+class VehicleDAO(DAOInterface):
 
     data=[]
 
@@ -34,33 +34,29 @@ class VehicleDAO(object):
     def search(self,  mode, field, value):
         entries=[]
         entries = self.get_all_data()
-        if field == 'model':
-            self.get_vehicle_by_model(mode, entries,value)
 
-        if field == 'vin':
-            self.get_vehicle_by_vin(mode, entries,value)
-
+        for i in entries:
+            if (getattr(i,field) == value and mode != 'i')  or (getattr(i,field).upper().strip() == value.upper().strip() and mode == 'i'):
+                print(i)
 
     def delete(self,  mode, field, value):
         database_path=properties.databases['vehicle']
         entries=[]
-        new_entries=[]
         entries = self.get_all_data()
-        if field == 'model':
-            new_entries = self.delete_by_model( mode, entries,value)
+        rename_file(database_path,database_path+".old")
+        print("Entries survived in database:")
+        for i in entries:
+            if not ((getattr(i,field) == value and mode != 'i')  or (getattr(i,field).upper() == value.upper() and mode == 'i')):
+                self.add({'vin':i.vin, 'model':i.model})
 
-        if field == 'vin':
-            new_entries = self.delete_by_vin( mode, entries,value)
-
-
-    def count(self,database_path, mode, field, value):
+    def count(self, mode, field, value):
         entries=[]
         entries = self.get_all_data()
-        if field == 'model':
-            self.count_by_model(mode, entries, value)
-
-        if field == 'vin':
-            self.count_by_vin(mode, entries, value)
+        seq=0
+        for i in entries:
+            if (getattr(i,field) == value and mode != 'i')  or (getattr(i,field).upper() == value.upper() and mode == 'i'):
+                seq+=1
+        print(f'count({vin}) = {seq}')
 
     def add(self,  row):
         vehicle = Vehicle(row['vin'],row['model'])
@@ -70,43 +66,13 @@ class VehicleDAO(object):
         pickle.dump(vehicle,database)
         ConnectionManager().close_database(database)
 
-    def get_vehicle_by_model(self, mode, entries,model):
-        for i in entries:
-            if (i.model == model and mode != 'i')  or (i.model.upper().strip() == model.upper().strip() and mode == 'i'):
-                print(i)
-
-    def get_vehicle_by_vin(self,mode, entries,vin):
-        for i in entries:
-            if (i.vin == vin and mode != 'i')  or (i.vin.upper().strip() == vin.upper().strip() and mode == 'i'):
-                print(i)
-
-
-
-    def delete_by_model(self, database_path, mode, entries, model):
+    def update(self, mode, search_field, search_value, change_field, change_val):
+        database_path=properties.databases['person']
+        entries=[]
+        entries = self.get_all_data()
         rename_file(database_path,database_path+".old")
-        print("Entries survived in database:")
         for i in entries:
-            if not ((i.model == model and mode != 'i')  or (i.model.upper() == model.upper() and mode == 'i')):
-                self.add({'vin':i.vin, 'model':i.model})
-
-
-    def delete_by_vin(self, database_path, mode, entries, vin):
-        rename_file(database_path,database_path+".old")
-        print("Entries survived in database:")
-        for i in entries:
-            if not ((i.vin == vin and mode != 'i')  or (i.vin.upper() == vin.upper() and mode == 'i')):
-                self.add({'vin':i.vin, 'model':i.model})
-
-    def count_by_vin(self, mode, entries, vin):
-        seq=0
-        for i in entries:
-            if (i.vin == vin and mode != 'i')  or (i.vin.upper() == vin.upper() and mode == 'i'):
-                seq+=1
-        print(f'count({vin}) = {seq}')
-
-    def count_by_model(self, mode, entries, model):
-        seq=0
-        for i in entries:
-            if (i.model == model and mode != 'i')  or (i.model.upper() == model.upper() and mode == 'i'):
-                seq+=1
-        print(f'count({model}) = {seq}')
+            vehicle=i;
+            if (getattr(i,search_field) == search_value and mode != 'i')  or (getattr(i,search_field).upper().strip() == search_value.upper().strip() and mode == 'i'):
+                setattr(vehicle,change_field,change_val)
+            self.add({'vin':vehicle.vin, 'model':vehicle.model})
