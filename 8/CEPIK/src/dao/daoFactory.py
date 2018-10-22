@@ -6,7 +6,7 @@ from dao.personDAO import PersonDAO
 from dao.vehicleDAO import VehicleDAO
 
 
-class DaoFacade():
+class DaoFactory():
 
     def get_instance(self,database):
         if database == 'person':

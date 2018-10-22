@@ -5,20 +5,19 @@ from  properties import properties
 from helper.connection_manager import ConnectionManager
 from helper import commons
 from dao.personDAO import PersonDAO
-from dao.daoFacade import DaoFacade
-
+from dao.daoFactory import DaoFactory
 from entity.person import Person
 
 
 while True:
     print("-"*30)
     input_operation=input("Choose option:\n"
-                    "l [=database name] - list available databases, or show all from specific database if name provided\n"
+                    "l [=database name] - list available databases, or show all data from specific database if name provided\n"
                     "a=database  - add entry\n"
                     "c=database  - clear database or create if not exists\n"
                     "s(i)=dabatase - search, case insensitive when i provided\n"
                     "r(i)=database  - remove entry by name, case insensitive when i provided\n"
-                    "fcount=database  - count function\n"
+                    "fc(i)=database  - count function\n"
                     "af  - add field\n"
                     "df  - delete field\n"
                     "q  - exit\n ")
@@ -37,13 +36,16 @@ while True:
     except:
         pass
 
+    if not( database is None ) and database not in properties.databases.keys():
+        print("Not existing database!")
+        continue
 
     if operation == "l":
         if database is None:
             commons.list_all_databases(properties.databases)
         else:
             all_data=[]
-            all_data= DaoFacade().get_instance(database).get_all_data(properties.databases[database]).copy()
+            all_data= DaoFactory().get_instance(database).get_all_data().copy()
             for p in all_data:
                 try:
                     print(p)
@@ -55,9 +57,9 @@ while True:
         if database is None:
             print("Provide database name")
         else:
-            for i in properties.database_structure[database]:
+            for i in properties.database_structure['person']:
                 row[i] = input(f'{i}: ')
-            DaoFacade().get_instance(database).add(properties.databases[database],row)
+            DaoFactory().get_instance(database).add(row)
 
     elif operation == "c":
         if database is None:
@@ -74,10 +76,9 @@ while True:
                 mode = 'i'
             else:
                 mode = 's'
-            field = input('Search field: ')
+            field=commons.get_valid_field(properties.database_structure[database])
             value = input('Search value: ')
-
-            DaoFacade().get_instance(database).search(properties.databases[database],mode, field,value)
+            DaoFactory().get_instance(database).search(mode, field.strip(),value.strip())
             pass
 
     elif operation == "r" or operation == "ri":
@@ -88,23 +89,23 @@ while True:
                 mode = 'i'
             else:
                 mode = 's'
-            field = input('Delete by field: ')
+            field=commons.get_valid_field(properties.database_structure[database])
             value = input('Delete by value: ')
 
-            DaoFacade().get_instance(database).delete(properties.databases[database],mode, field,value)
+            DaoFactory().get_instance(database).delete(mode, field,value)
 
-    elif operation == "fcount":
+    elif operation == "fci" or operation == "fc":
         if database is None:
             print("Provide database name")
         else:
-            if operation == "ri":
+            if operation == "fci":
                 mode = 'i'
             else:
                 mode = 's'
-            field = input('Delete by field: ')
-            value = input('Delete by value: ')
+            field=commons.get_valid_field(properties.database_structure[database])
+            value = input('Count by value: ')
 
-            DaoFacade().get_instance(database).count(properties.databases[database],mode, field,value)
+            DaoFactory().get_instance(database).count(properties.databases[database],mode, field,value)
 
 
     # elif operation == "s":
